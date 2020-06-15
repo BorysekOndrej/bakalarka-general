@@ -53,7 +53,7 @@ services:
     container_name: sqlite-web
     image: coleifer/sqlite-web
     volumes:
-      - db:/app/bakalarka3/db
+      - db:/data
     environment:
       - SQLITE_DATABASE=test.db
     ports:
