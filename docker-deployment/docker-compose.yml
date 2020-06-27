@@ -29,7 +29,8 @@ services:
       - redis
       - flask
     env_file:
-      - backend/.env      
+      - backend/.env
+    entrypoint: [ "rq", "worker", "sslyze-tasks", "--url", "redis://redis"]
   
   # sslyze_scanner_recurring:
   #   container_name: sslyze_scanner_recurring
