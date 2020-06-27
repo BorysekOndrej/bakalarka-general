@@ -24,6 +24,6 @@ Update using:
 # https://stackoverflow.com/a/61362893/
 
 docker-compose pull
-docker-compose up -d --remove-orphans
+docker-compose up --build -d --remove-orphans
 # docker image prune  # Optional: This removes all dangling images. Not just the ones from this project.
 ```
