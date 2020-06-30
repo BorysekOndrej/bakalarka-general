@@ -20,7 +20,7 @@ services:
       - db:/app/bakalarka3/db
       - flask-logs:/app/bakalarka3/log
     env_file:
-      - backend/.env      
+      - backend/.env
 
   sslyze_scanner_new:
     container_name: sslyze_scanner_new
@@ -31,7 +31,7 @@ services:
     env_file:
       - backend/.env
     entrypoint: [ "rq", "worker", "sslyze-tasks", "--url", "redis://redis"]
-  
+
   # sslyze_scanner_recurring:
   #   container_name: sslyze_scanner_recurring
   #   image: borysekondrej/bakalarka-backend
@@ -39,7 +39,7 @@ services:
   #     - redis
   #     - flask
   #   env_file:
-  #     - sslyze_rq/.env      
+  #     - sslyze_rq/.env
 
   nginx:
     container_name: nginx
@@ -49,17 +49,17 @@ services:
       - flask
     ports:
       - "443:443"
-
-  sqlite-web:
-    container_name: sqlite-web
-    image: coleifer/sqlite-web
-    volumes:
-      - db:/data
-    environment:
-      - SQLITE_DATABASE=test.db
-    ports:
-      - "5001:8080"
+    # network_mode: "host" # this was workaround for https://github.com/gliderlabs/docker-alpine/issues/307
+    # this however then breaks connection to flask:5000
 
 volumes:
   db:
   flask-logs:
+
+# The following was test to fix the problem, when nginx didn't have access to internet for apk update in build.    
+# It was reproducible on VM Ubuntu 18.04.
+# networks:                                
+#   default:                               
+#     driver: bridge
+#     driver_opts:                         
+#       com.docker.network.driver.mtu: 1400
