@@ -8,12 +8,14 @@ services:
   ui:
     container_name: ui
     image: borysekondrej/bakalarka-frontend
+    # image: tlsinventory/frontend
     env_file:
       - frontend/.env
 
   flask:
     container_name: flask
     image: borysekondrej/bakalarka-backend
+    # image: tlsinventory/backend
     depends_on:
       - redis
     volumes:
@@ -22,16 +24,20 @@ services:
     env_file:
       - backend/.env
 
-  sslyze_scanner_new:
-    container_name: sslyze_scanner_new
+  sslyze_scanner:
+    container_name: sslyze_scanner
     image: borysekondrej/bakalarka-backend
+    # image: tlsinventory/backend
     depends_on:
       - redis
       - flask
     env_file:
-      - backend/.env
-    entrypoint: [ "rq", "worker", "sslyze-tasks", "--url", "redis://redis"]
-
+      - sslyze_rq/.env
+    volumes:
+      - ./sslyze_rq/supervisor:/app/supervisor
+    entrypoint: ["/bin/bash", "-c", "supervisord -c /app/supervisor/supervisord.conf -n"]
+    
+  # The following is in preparation when there will be two queues.
   # sslyze_scanner_recurring:
   #   container_name: sslyze_scanner_recurring
   #   image: borysekondrej/bakalarka-backend
