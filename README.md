@@ -29,9 +29,6 @@ cp sslyze_rq/dist.env sslyze_rq/.env
 # For sslyze_rq/.env it is:
 # SENSOR_COLLECTOR_KEY=FILL_MANUALLY
 
-# For frontend/.env it is:
-# API_URL=FILL_MANUALLY
-
 # For nginx/nginx.conf it is:
 # server_name            FILL_MANUALLY
 
